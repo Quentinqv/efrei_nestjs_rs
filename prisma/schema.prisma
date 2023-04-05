@@ -1,0 +1,92 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model category {
+  id          Int      @id @default(autoincrement())
+  created_at  DateTime @default(now()) @db.DateTime(0)
+  modified_at DateTime @default(now()) @db.DateTime(0)
+  name        String   @db.VarChar(45)
+  post_id     Int
+}
+
+model comment {
+  id          Int      @id @default(autoincrement())
+  created_at  DateTime @default(now()) @db.DateTime(0)
+  modified_at DateTime @default(now()) @db.DateTime(0)
+  content     String   @db.VarChar(255)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model comment_like {
+  created_at  DateTime @default(now()) @db.DateTime(0)
+  modified_at DateTime @default(now()) @db.DateTime(0)
+  comment_id  Int
+  user_id     Int
+
+  @@id([comment_id, user_id])
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model follow {
+  created_at       DateTime @default(now()) @db.DateTime(0)
+  modified_at      DateTime @default(now()) @db.DateTime(0)
+  user_followed_id Int
+  user_follower_id Int
+
+  @@id([user_followed_id, user_follower_id])
+  @@ignore
+}
+
+model post {
+  id          Int      @id @default(autoincrement())
+  created_at  DateTime @default(now()) @db.DateTime(0)
+  modified_at DateTime @default(now()) @db.DateTime(0)
+  user_id     Int
+  description String   @db.VarChar(255)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model post_like {
+  created_at  DateTime @default(now()) @db.DateTime(0)
+  modified_at DateTime @default(now()) @db.DateTime(0)
+  user_id     Int
+  post_id     Int
+
+  @@id([user_id, post_id])
+  @@ignore
+}
+
+model user {
+  id          Int      @id @default(autoincrement())
+  created_at  DateTime @default(now()) @db.DateTime(0)
+  modified_at DateTime @default(now()) @db.DateTime(0)
+  username    String   @db.VarChar(50)
+  email       String   @db.VarChar(80)
+  password    String   @db.VarChar(60)
+  avatar      String   @db.Text
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model user_has_comment {
+  user_id    Int
+  comment_id Int
+  post_id    Int
+
+  @@id([user_id, comment_id, post_id])
+  @@ignore
+}
+
+model video {
+  id          Int      @id @default(autoincrement())
+  created_at  DateTime @default(now()) @db.DateTime(0)
+  modified_at DateTime @default(now()) @db.DateTime(0)
+  url         String   @db.Text
+  post_id     Int
+}

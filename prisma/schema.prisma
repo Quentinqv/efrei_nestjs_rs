@@ -13,74 +13,98 @@ model category {
   modified_at DateTime @default(now()) @db.DateTime(0)
   name        String   @db.VarChar(45)
   post_id     Int
+  post        post     @relation(fields: [post_id], references: [id], onUpdate: Restrict, map: "category_ibfk_1")
+
+  @@index([post_id], map: "post_id")
 }
 
 model comment {
-  id          Int      @id @default(autoincrement())
-  created_at  DateTime @default(now()) @db.DateTime(0)
-  modified_at DateTime @default(now()) @db.DateTime(0)
-  content     String   @db.VarChar(255)
+  id               Int                @id @default(autoincrement())
+  created_at       DateTime           @default(now()) @db.DateTime(0)
+  modified_at      DateTime           @default(now()) @db.DateTime(0)
+  content          String             @db.VarChar(255)
+  comment_like     comment_like[]
+  user_has_comment user_has_comment[]
 }
 
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 model comment_like {
+  id          Int      @id @default(autoincrement())
   created_at  DateTime @default(now()) @db.DateTime(0)
   modified_at DateTime @default(now()) @db.DateTime(0)
   comment_id  Int
   user_id     Int
+  comment     comment  @relation(fields: [comment_id], references: [id], onUpdate: Restrict, map: "comment_like_ibfk_1")
+  user        user     @relation(fields: [user_id], references: [id], onUpdate: Restrict, map: "comment_like_ibfk_2")
 
-  @@id([comment_id, user_id])
-  @@ignore
+  @@index([comment_id], map: "comment_id")
+  @@index([user_id], map: "user_id")
 }
 
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 model follow {
-  created_at       DateTime @default(now()) @db.DateTime(0)
-  modified_at      DateTime @default(now()) @db.DateTime(0)
-  user_followed_id Int
-  user_follower_id Int
+  id                                 Int      @id @default(autoincrement())
+  created_at                         DateTime @default(now()) @db.DateTime(0)
+  modified_at                        DateTime @default(now()) @db.DateTime(0)
+  user_followed_id                   Int
+  user_follower_id                   Int
+  user_follow_user_followed_idTouser user     @relation("follow_user_followed_idTouser", fields: [user_followed_id], references: [id], onUpdate: Restrict, map: "follow_ibfk_1")
+  user_follow_user_follower_idTouser user     @relation("follow_user_follower_idTouser", fields: [user_follower_id], references: [id], onUpdate: Restrict, map: "follow_ibfk_2")
 
-  @@id([user_followed_id, user_follower_id])
-  @@ignore
+  @@index([user_followed_id], map: "user_followed_id")
+  @@index([user_follower_id], map: "user_follower_id")
 }
 
 model post {
-  id          Int      @id @default(autoincrement())
-  created_at  DateTime @default(now()) @db.DateTime(0)
-  modified_at DateTime @default(now()) @db.DateTime(0)
-  user_id     Int
-  description String   @db.VarChar(255)
+  id               Int                @id @default(autoincrement())
+  created_at       DateTime           @default(now()) @db.DateTime(0)
+  modified_at      DateTime           @default(now()) @db.DateTime(0)
+  user_id          Int
+  description      String             @db.VarChar(255)
+  category         category[]
+  post_like        post_like[]
+  user_has_comment user_has_comment[]
+  video            video[]
 }
 
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 model post_like {
+  id          Int      @id @default(autoincrement())
   created_at  DateTime @default(now()) @db.DateTime(0)
   modified_at DateTime @default(now()) @db.DateTime(0)
   user_id     Int
   post_id     Int
+  post        post     @relation(fields: [post_id], references: [id], onUpdate: Restrict, map: "post_like_ibfk_1")
+  user        user     @relation(fields: [user_id], references: [id], onUpdate: Restrict, map: "post_like_ibfk_2")
 
-  @@id([user_id, post_id])
-  @@ignore
+  @@index([post_id], map: "post_id")
+  @@index([user_id], map: "user_id")
 }
 
 model user {
-  id          Int      @id @default(autoincrement())
-  created_at  DateTime @default(now()) @db.DateTime(0)
-  modified_at DateTime @default(now()) @db.DateTime(0)
-  username    String   @db.VarChar(50)
-  email       String   @db.VarChar(80)
-  password    String   @db.VarChar(60)
-  avatar      String   @db.Text
+  id                                   Int                @id @default(autoincrement())
+  created_at                           DateTime           @default(now()) @db.DateTime(0)
+  modified_at                          DateTime           @default(now()) @db.DateTime(0)
+  username                             String             @db.VarChar(50)
+  email                                String             @db.VarChar(80)
+  password                             String             @db.VarChar(60)
+  avatar                               String             @db.Text
+  comment_like                         comment_like[]
+  follow_follow_user_followed_idTouser follow[]           @relation("follow_user_followed_idTouser")
+  follow_follow_user_follower_idTouser follow[]           @relation("follow_user_follower_idTouser")
+  post_like                            post_like[]
+  user_has_comment                     user_has_comment[]
 }
 
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 model user_has_comment {
+  id         Int     @id @default(autoincrement())
   user_id    Int
   comment_id Int
   post_id    Int
+  comment    comment @relation(fields: [comment_id], references: [id], onUpdate: Restrict, map: "user_has_comment_ibfk_1")
+  post       post    @relation(fields: [post_id], references: [id], onUpdate: Restrict, map: "user_has_comment_ibfk_2")
+  user       user    @relation(fields: [user_id], references: [id], onUpdate: Restrict, map: "user_has_comment_ibfk_3")
 
-  @@id([user_id, comment_id, post_id])
-  @@ignore
+  @@index([comment_id], map: "comment_id")
+  @@index([post_id], map: "post_id")
+  @@index([user_id], map: "user_id")
 }
 
 model video {
@@ -89,4 +113,7 @@ model video {
   modified_at DateTime @default(now()) @db.DateTime(0)
   url         String   @db.Text
   post_id     Int
+  post        post     @relation(fields: [post_id], references: [id], onUpdate: Restrict, map: "video_ibfk_1")
+
+  @@index([post_id], map: "post_id")
 }

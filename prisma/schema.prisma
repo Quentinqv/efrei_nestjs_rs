@@ -13,7 +13,7 @@ model category {
   modified_at DateTime @default(now()) @db.DateTime(0)
   name        String   @db.VarChar(45)
   post_id     Int
-  post        post     @relation(fields: [post_id], references: [id], onUpdate: Restrict, map: "category_ibfk_1")
+  post        post     @relation(fields: [post_id], references: [id], onUpdate: Restrict, map: "category_ibfk_1", onDelete: Cascade)
 
   @@index([post_id], map: "post_id")
 }
@@ -34,7 +34,7 @@ model comment_like {
   comment_id  Int
   user_id     Int
   comment     comment  @relation(fields: [comment_id], references: [id], onUpdate: Restrict, map: "comment_like_ibfk_1")
-  user        user     @relation(fields: [user_id], references: [id], onUpdate: Restrict, map: "comment_like_ibfk_2")
+  user        user     @relation(fields: [user_id], references: [id], onUpdate: Restrict, map: "comment_like_ibfk_2", onDelete: Cascade)
 
   @@index([comment_id], map: "comment_id")
   @@index([user_id], map: "user_id")
@@ -46,8 +46,8 @@ model follow {
   modified_at                        DateTime @default(now()) @db.DateTime(0)
   user_followed_id                   Int
   user_follower_id                   Int
-  user_follow_user_followed_idTouser user     @relation("follow_user_followed_idTouser", fields: [user_followed_id], references: [id], onUpdate: Restrict, map: "follow_ibfk_1")
-  user_follow_user_follower_idTouser user     @relation("follow_user_follower_idTouser", fields: [user_follower_id], references: [id], onUpdate: Restrict, map: "follow_ibfk_2")
+  user_follow_user_followed_idTouser user     @relation("follow_user_followed_idTouser", fields: [user_followed_id], references: [id], onUpdate: Restrict, map: "follow_ibfk_1", onDelete: Cascade)
+  user_follow_user_follower_idTouser user     @relation("follow_user_follower_idTouser", fields: [user_follower_id], references: [id], onUpdate: Restrict, map: "follow_ibfk_2", onDelete: Cascade)
 
   @@index([user_followed_id], map: "user_followed_id")
   @@index([user_follower_id], map: "user_follower_id")
@@ -60,9 +60,12 @@ model post {
   user_id          Int
   description      String             @db.VarChar(255)
   category         category[]
+  user             user               @relation(fields: [user_id], references: [id], onUpdate: Restrict, map: "post_ibfk_1", onDelete: Cascade)
   post_like        post_like[]
   user_has_comment user_has_comment[]
   video            video[]
+
+  @@index([user_id], map: "user_id")
 }
 
 model post_like {
@@ -71,8 +74,8 @@ model post_like {
   modified_at DateTime @default(now()) @db.DateTime(0)
   user_id     Int
   post_id     Int
-  post        post     @relation(fields: [post_id], references: [id], onUpdate: Restrict, map: "post_like_ibfk_1")
-  user        user     @relation(fields: [user_id], references: [id], onUpdate: Restrict, map: "post_like_ibfk_2")
+  post        post     @relation(fields: [post_id], references: [id], onUpdate: Restrict, map: "post_like_ibfk_1", onDelete: Cascade)
+  user        user     @relation(fields: [user_id], references: [id], onUpdate: Restrict, map: "post_like_ibfk_2", onDelete: Cascade)
 
   @@index([post_id], map: "post_id")
   @@index([user_id], map: "user_id")
@@ -89,6 +92,7 @@ model user {
   comment_like                         comment_like[]
   follow_follow_user_followed_idTouser follow[]           @relation("follow_user_followed_idTouser")
   follow_follow_user_follower_idTouser follow[]           @relation("follow_user_follower_idTouser")
+  post                                 post[]
   post_like                            post_like[]
   user_has_comment                     user_has_comment[]
 }
@@ -98,9 +102,9 @@ model user_has_comment {
   user_id    Int
   comment_id Int
   post_id    Int
-  comment    comment @relation(fields: [comment_id], references: [id], onUpdate: Restrict, map: "user_has_comment_ibfk_1")
-  post       post    @relation(fields: [post_id], references: [id], onUpdate: Restrict, map: "user_has_comment_ibfk_2")
-  user       user    @relation(fields: [user_id], references: [id], onUpdate: Restrict, map: "user_has_comment_ibfk_3")
+  comment    comment @relation(fields: [comment_id], references: [id], onUpdate: Restrict, map: "user_has_comment_ibfk_1", onDelete: Cascade)
+  post       post    @relation(fields: [post_id], references: [id], onUpdate: Restrict, map: "user_has_comment_ibfk_2", onDelete: Cascade)
+  user       user    @relation(fields: [user_id], references: [id], onUpdate: Restrict, map: "user_has_comment_ibfk_3", onDelete: Cascade)
 
   @@index([comment_id], map: "comment_id")
   @@index([post_id], map: "post_id")
@@ -113,7 +117,7 @@ model video {
   modified_at DateTime @default(now()) @db.DateTime(0)
   url         String   @db.Text
   post_id     Int
-  post        post     @relation(fields: [post_id], references: [id], onUpdate: Restrict, map: "video_ibfk_1")
+  post        post     @relation(fields: [post_id], references: [id], onUpdate: Restrict, map: "video_ibfk_1", onDelete: Cascade)
 
   @@index([post_id], map: "post_id")
 }

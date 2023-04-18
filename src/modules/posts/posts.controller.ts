@@ -12,8 +12,6 @@ import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { HashPasswordPipe } from '../users/hash-password/hash-password.pipe';
-import { ValidationCreateUserPipe } from '../users/validation-create-user/validation-create-user.pipe';
 
 @ApiTags('posts')
 @Controller('posts')

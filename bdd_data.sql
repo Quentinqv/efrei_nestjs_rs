@@ -22,19 +22,46 @@ SET time_zone = "+00:00";
 --
 
 --
--- Dumping data for table `category`
+-- Dumping data for table `user`
 --
 
-INSERT INTO `category` (`id`, `created_at`, `modified_at`, `name`, `post_id`) VALUES
-(1, '2023-04-07 19:34:51', '2023-04-07 19:34:51', 'Sport', 1),
-(2, '2023-04-07 19:34:51', '2023-04-07 19:34:51', 'Musique', 1),
-(3, '2023-04-07 19:34:51', '2023-04-07 19:34:51', 'Cuisine', 2),
-(4, '2023-04-07 19:34:51', '2023-04-07 19:34:51', 'Voyages', 3),
-(5, '2023-04-07 19:34:51', '2023-04-07 19:34:51', 'Cinéma', 4),
-(6, '2023-04-07 19:34:51', '2023-04-07 19:34:51', 'Lecture', 5),
-(7, '2023-04-07 19:34:51', '2023-04-07 19:34:51', 'Informatique', 6),
-(8, '2023-04-07 19:34:51', '2023-04-07 19:34:51', 'Animaux', 7),
-(9, '2023-04-07 19:34:51', '2023-04-07 19:34:51', 'Santé', 8);
+INSERT INTO `user` (`id`, `created_at`, `modified_at`, `username`, `email`, `password`, `avatar`) VALUES
+(1, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 'Alice', 'alice@mail.com', 'password123', 'https://randomuser.me/api/portraits/women/1.jpg'),
+(2, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 'Bob', 'bob@mail.com', 'password123', 'https://randomuser.me/api/portraits/men/1.jpg'),
+(3, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 'Charlie', 'charlie@mail.com', 'password123', 'https://randomuser.me/api/portraits/men/2.jpg'),
+(4, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 'David', 'david@mail.com', 'password123', 'https://randomuser.me/api/portraits/men/3.jpg'),
+(5, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 'Eve', 'eve@mail.com', 'password123', 'https://randomuser.me/api/portraits/women/2.jpg'),
+(6, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 'Frank', 'frank@mail.com', 'password123', 'https://randomuser.me/api/portraits/men/4.jpg'),
+(7, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 'Grace', 'grace@mail.com', 'password123', 'https://randomuser.me/api/portraits/women/3.jpg'),
+(8, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 'Henry', 'henry@mail.com', 'password123', 'https://randomuser.me/api/portraits/men/5.jpg'),
+(9, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 'Isabel', 'isabel@mail.com', 'password123', 'https://randomuser.me/api/portraits/women/4.jpg'),
+(10, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 'Jack', 'jack@mail.com', 'password123', 'https://randomuser.me/api/portraits/men/6.jpg'),
+(11, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 'Karen', 'karen@mail.com', 'password123', 'https://randomuser.me/api/portraits/women/5.jpg'),
+(12, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 'Liam', 'liam@mail.com', 'password123', 'https://randomuser.me/api/portraits/men/7.jpg'),
+(13, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 'Mia', 'mia@mail.com', 'password123', 'https://randomuser.me/api/portraits/women/6.jpg'),
+(14, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 'Nathan', 'nathan@mail.com', 'password123', 'https://randomuser.me/api/portraits/men/8.jpg'),
+(15, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 'Olivia', 'olivia@mail.com', 'password123', 'https://randomuser.me/api/portraits/women/7.jpg'),
+(16, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 'Peter', 'peter@mail.com', 'password123', 'https://randomuser.me/api/portraits/men/9.jpg'),
+(17, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 'Queenie', 'queenie@mail.com', 'password123', 'https://randomuser.me/api/portraits/women/8.jpg'),
+(18, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 'Richard', 'richard@mail.com', 'password123', 'https://randomuser.me/api/portraits/men/10.jpg'),
+(19, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 'Sarah', 'sarah@mail.com', 'password123', 'https://randomuser.me/api/portraits/women/9.jpg'),
+(20, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 'Tom', 'tom@mail.com', 'password123', 'https://randomuser.me/api/portraits/men/11.jpg');
+
+--
+-- Dumping data for table `post`
+--
+
+INSERT INTO `post` (`id`, `created_at`, `modified_at`, `user_id`, `description`) VALUES
+(1, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 1, 'Premier post.'),
+(2, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 2, 'Deuxième post.'),
+(3, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 3, 'Troisième post.'),
+(4, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 4, 'Quatrième post.'),
+(5, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 5, 'Cinquième post.'),
+(6, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 6, 'Sixième post.'),
+(7, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 7, 'Septième post.'),
+(8, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 8, 'Huitième post.'),
+(9, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 9, 'Neuvième post.'),
+(10, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 10, 'Dixième post.');
 
 --
 -- Dumping data for table `comment`
@@ -66,6 +93,22 @@ INSERT INTO `comment` (`id`, `created_at`, `modified_at`, `content`) VALUES
 (23, '2023-04-07 19:35:20', '2023-04-07 19:35:20', 'J\'ai aimé lire ce post, merci.'),
 (24, '2023-04-07 19:35:20', '2023-04-07 19:35:20', 'Je suis heureux d\'avoir trouvé un post qui traite de ce sujet.'),
 (25, '2023-04-07 19:35:20', '2023-04-07 19:35:20', 'C\'est un bon post, merci.');
+
+--
+-- Dumping data for table `category`
+--
+
+INSERT INTO `category` (`id`, `created_at`, `modified_at`, `name`, `post_id`) VALUES
+(1, '2023-04-07 19:34:51', '2023-04-07 19:34:51', 'Sport', 1),
+(2, '2023-04-07 19:34:51', '2023-04-07 19:34:51', 'Musique', 1),
+(3, '2023-04-07 19:34:51', '2023-04-07 19:34:51', 'Cuisine', 2),
+(4, '2023-04-07 19:34:51', '2023-04-07 19:34:51', 'Voyages', 3),
+(5, '2023-04-07 19:34:51', '2023-04-07 19:34:51', 'Cinéma', 4),
+(6, '2023-04-07 19:34:51', '2023-04-07 19:34:51', 'Lecture', 5),
+(7, '2023-04-07 19:34:51', '2023-04-07 19:34:51', 'Informatique', 6),
+(8, '2023-04-07 19:34:51', '2023-04-07 19:34:51', 'Animaux', 7),
+(9, '2023-04-07 19:34:51', '2023-04-07 19:34:51', 'Santé', 8);
+
 
 --
 -- Dumping data for table `comment_like`
@@ -164,22 +207,6 @@ INSERT INTO `follow` (`id`, `created_at`, `modified_at`, `user_followed_id`, `us
 (50, '2023-04-07 19:53:59', '2023-04-07 20:13:46', 20, 8);
 
 --
--- Dumping data for table `post`
---
-
-INSERT INTO `post` (`id`, `created_at`, `modified_at`, `user_id`, `description`) VALUES
-(1, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 1, 'Premier post.'),
-(2, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 2, 'Deuxième post.'),
-(3, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 3, 'Troisième post.'),
-(4, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 4, 'Quatrième post.'),
-(5, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 5, 'Cinquième post.'),
-(6, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 6, 'Sixième post.'),
-(7, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 7, 'Septième post.'),
-(8, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 8, 'Huitième post.'),
-(9, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 9, 'Neuvième post.'),
-(10, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 10, 'Dixième post.');
-
---
 -- Dumping data for table `post_like`
 --
 
@@ -206,32 +233,6 @@ INSERT INTO `post_like` (`id`, `created_at`, `modified_at`, `user_id`, `post_id`
 (20, '2023-04-07 19:54:35', '2023-04-07 20:15:57', 15, 6),
 (21, '2023-04-07 19:54:35', '2023-04-07 20:15:57', 16, 4),
 (22, '2023-04-07 19:54:35', '2023-04-07 20:15:57', 17, 5);
-
---
--- Dumping data for table `user`
---
-
-INSERT INTO `user` (`id`, `created_at`, `modified_at`, `username`, `email`, `password`, `avatar`) VALUES
-(1, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 'Alice', 'alice@mail.com', 'password123', 'https://randomuser.me/api/portraits/women/1.jpg'),
-(2, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 'Bob', 'bob@mail.com', 'password123', 'https://randomuser.me/api/portraits/men/1.jpg'),
-(3, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 'Charlie', 'charlie@mail.com', 'password123', 'https://randomuser.me/api/portraits/men/2.jpg'),
-(4, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 'David', 'david@mail.com', 'password123', 'https://randomuser.me/api/portraits/men/3.jpg'),
-(5, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 'Eve', 'eve@mail.com', 'password123', 'https://randomuser.me/api/portraits/women/2.jpg'),
-(6, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 'Frank', 'frank@mail.com', 'password123', 'https://randomuser.me/api/portraits/men/4.jpg'),
-(7, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 'Grace', 'grace@mail.com', 'password123', 'https://randomuser.me/api/portraits/women/3.jpg'),
-(8, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 'Henry', 'henry@mail.com', 'password123', 'https://randomuser.me/api/portraits/men/5.jpg'),
-(9, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 'Isabel', 'isabel@mail.com', 'password123', 'https://randomuser.me/api/portraits/women/4.jpg'),
-(10, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 'Jack', 'jack@mail.com', 'password123', 'https://randomuser.me/api/portraits/men/6.jpg'),
-(11, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 'Karen', 'karen@mail.com', 'password123', 'https://randomuser.me/api/portraits/women/5.jpg'),
-(12, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 'Liam', 'liam@mail.com', 'password123', 'https://randomuser.me/api/portraits/men/7.jpg'),
-(13, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 'Mia', 'mia@mail.com', 'password123', 'https://randomuser.me/api/portraits/women/6.jpg'),
-(14, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 'Nathan', 'nathan@mail.com', 'password123', 'https://randomuser.me/api/portraits/men/8.jpg'),
-(15, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 'Olivia', 'olivia@mail.com', 'password123', 'https://randomuser.me/api/portraits/women/7.jpg'),
-(16, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 'Peter', 'peter@mail.com', 'password123', 'https://randomuser.me/api/portraits/men/9.jpg'),
-(17, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 'Queenie', 'queenie@mail.com', 'password123', 'https://randomuser.me/api/portraits/women/8.jpg'),
-(18, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 'Richard', 'richard@mail.com', 'password123', 'https://randomuser.me/api/portraits/men/10.jpg'),
-(19, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 'Sarah', 'sarah@mail.com', 'password123', 'https://randomuser.me/api/portraits/women/9.jpg'),
-(20, '2023-04-07 15:58:43', '2023-04-07 15:58:43', 'Tom', 'tom@mail.com', 'password123', 'https://randomuser.me/api/portraits/men/11.jpg');
 
 --
 -- Dumping data for table `user_has_comment`

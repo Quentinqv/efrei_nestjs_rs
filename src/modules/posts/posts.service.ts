@@ -16,6 +16,10 @@ export class PostsService {
       where: {
         id,
       },
+      include: {
+        user: true,
+        video: true,
+      },
     });
   }
 

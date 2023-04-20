@@ -6,9 +6,17 @@ import { AuthModule } from './modules/auth/auth.module';
 import { PostsModule } from './modules/posts/posts.module';
 import { VideosModule } from './modules/videos/videos.module';
 import { CategoriesModule } from './modules/categories/categories.module';
+import { FollowsModule } from './modules/follows/follows.module';
 
 @Module({
-  imports: [UsersModule, AuthModule, PostsModule, VideosModule, CategoriesModule],
+  imports: [
+    UsersModule,
+    AuthModule,
+    PostsModule,
+    VideosModule,
+    CategoriesModule,
+    FollowsModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

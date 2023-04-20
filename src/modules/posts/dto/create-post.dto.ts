@@ -15,5 +15,3 @@ export class CreatePostDto {
   })
   user_id: number;
 }
-
-

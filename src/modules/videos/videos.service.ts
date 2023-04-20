@@ -20,14 +20,13 @@ export class VideosService {
   }
 
   async create(createVideoDto: CreateVideoDto) {
-   return await this.prisma.video.create({
+    return await this.prisma.video.create({
       data: createVideoDto,
     });
   }
 
-
   async update(id: number, updateVideoDto: UpdateVideoDto) {
-   return await this.prisma.video.update({
+    return await this.prisma.video.update({
       where: {
         id,
       },

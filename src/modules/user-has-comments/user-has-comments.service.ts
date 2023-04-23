@@ -1,26 +1,44 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserHasCommentDto } from './dto/create-user-has-comment.dto';
 import { UpdateUserHasCommentDto } from './dto/update-user-has-comment.dto';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class UserHasCommentsService {
-  create(createUserHasCommentDto: CreateUserHasCommentDto) {
-    return 'This action adds a new userHasComment';
+  constructor(private prisma: PrismaService) {}
+
+  async create(createUserHasCommentDto: CreateUserHasCommentDto) {
+    return await this.prisma.user_has_comment.create({
+      data: createUserHasCommentDto,
+    });
   }
 
-  findAll() {
-    return `This action returns all userHasComments`;
+  async findAll() {
+    return await this.prisma.user_has_comment.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} userHasComment`;
+  async findOne(id: number) {
+    return await this.prisma.user_has_comment.findUnique({
+      where: {
+        id,
+      },
+    });
   }
 
-  update(id: number, updateUserHasCommentDto: UpdateUserHasCommentDto) {
-    return `This action updates a #${id} userHasComment`;
+  async update(id: number, updateUserHasCommentDto: UpdateUserHasCommentDto) {
+    return await this.prisma.user_has_comment.update({
+      where: {
+        id,
+      },
+      data: updateUserHasCommentDto,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} userHasComment`;
+  async remove(id: number) {
+    return await this.prisma.user_has_comment.delete({
+      where: {
+        id,
+      },
+    });
   }
 }

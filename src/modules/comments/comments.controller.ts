@@ -32,14 +32,14 @@ export class CommentsController {
   }
 
   @Post()
-  @ApiResponse({ status: 201, description: 'Posts created' })
+  @ApiResponse({ status: 201, description: 'Comments created' })
   @ApiResponse({ status: 400, description: 'Bad request' })
   create(@Body() createCommentDto: CreateCommentDto) {
     return this.commentsService.create(createCommentDto);
   }
 
   @Patch(':id')
-  @ApiResponse({ status: 201, description: 'Posts updated' })
+  @ApiResponse({ status: 201, description: 'Comments updated' })
   @ApiResponse({ status: 400, description: 'Bad request' })
   update(@Param('id') id: string, @Body() updateCommentDto: UpdateCommentDto) {
     return this.commentsService.update(+id, updateCommentDto);

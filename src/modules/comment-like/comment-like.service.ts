@@ -2,33 +2,16 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateCommentLikeDto } from './dto/create-comment-like.dto';
 import { UpdateCommentLikeDto } from './dto/update-comment-like.dto';
 import { PrismaService } from '../prisma/prisma.service';
+import { UsersService } from '../users/users.service';
+import { PostsService } from '../posts/posts.service';
 
 @Injectable()
 export class CommentLikeService {
-  constructor(private prisma: PrismaService) {}
-
-  async checkExits(user_id: number, comment_id: number) {
-    const user = await this.prisma.user.findUnique({
-      where: {
-        id: user_id,
-      },
-    });
-    const comment = await this.prisma.comment.findUnique({
-      where: {
-        id: comment_id,
-      },
-    });
-    if (!user) {
-      throw new BadRequestException('User not found', {
-        cause: new Error(),
-      });
-    }
-    if (!comment) {
-      throw new BadRequestException('Comment not found', {
-        cause: new Error(),
-      });
-    }
-  }
+  constructor(
+    private prisma: PrismaService,
+    private userService: UsersService,
+    private postService: PostsService,
+  ) {}
 
   async alreadyLiked(user_id: number, comment_id: number) {
     const alreadyLiked = await this.prisma.comment_like.findFirst({
@@ -45,10 +28,9 @@ export class CommentLikeService {
   }
 
   async create(createCommentLikeDto: CreateCommentLikeDto) {
-    await this.checkExits(
-      createCommentLikeDto.user_id,
-      createCommentLikeDto.comment_id,
-    );
+    await this.userService.checkExists(createCommentLikeDto.user_id);
+    await this.postService.checkExists(createCommentLikeDto.comment_id);
+
     await this.alreadyLiked(
       createCommentLikeDto.user_id,
       createCommentLikeDto.comment_id,
@@ -71,10 +53,9 @@ export class CommentLikeService {
   }
 
   async update(id: number, updateCommentLikeDto: UpdateCommentLikeDto) {
-    await this.checkExits(
-      updateCommentLikeDto.user_id,
-      updateCommentLikeDto.comment_id,
-    );
+    await this.userService.checkExists(updateCommentLikeDto.user_id);
+    await this.postService.checkExists(updateCommentLikeDto.comment_id);
+
     await this.alreadyLiked(
       updateCommentLikeDto.user_id,
       updateCommentLikeDto.comment_id,

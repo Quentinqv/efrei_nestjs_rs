@@ -2,10 +2,14 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateFollowDto } from './dto/create-follow.dto';
 import { UpdateFollowDto } from './dto/update-follow.dto';
 import { PrismaService } from '../prisma/prisma.service';
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class FollowsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private usersService: UsersService,
+  ) {}
 
   async findAll() {
     return await this.prisma.follow.findMany();
@@ -17,29 +21,6 @@ export class FollowsService {
         id,
       },
     });
-  }
-
-  async checkUsers(user_follower_id: number, user_followed_id: number) {
-    const userFollower = await this.prisma.user.findUnique({
-      where: {
-        id: user_follower_id,
-      },
-    });
-    const userFollowed = await this.prisma.user.findUnique({
-      where: {
-        id: user_followed_id,
-      },
-    });
-    if (!userFollower) {
-      throw new BadRequestException('User follower not found', {
-        cause: new Error(),
-      });
-    }
-    if (!userFollowed) {
-      throw new BadRequestException('User followed not found', {
-        cause: new Error(),
-      });
-    }
   }
 
   async alreadyFollowed(user_follower_id: number, user_followed_id: number) {
@@ -57,10 +38,9 @@ export class FollowsService {
   }
 
   async create(createFollowDto: CreateFollowDto) {
-    await this.checkUsers(
-      createFollowDto.user_follower_id,
-      createFollowDto.user_followed_id,
-    );
+    await this.usersService.checkExists(createFollowDto.user_follower_id);
+    await this.usersService.checkExists(createFollowDto.user_followed_id);
+
     await this.alreadyFollowed(
       createFollowDto.user_follower_id,
       createFollowDto.user_followed_id,
@@ -71,14 +51,14 @@ export class FollowsService {
   }
 
   async update(id: number, updateFollowDto: UpdateFollowDto) {
-    await this.checkUsers(
-      updateFollowDto.user_follower_id,
-      updateFollowDto.user_followed_id,
-    );
+    await this.usersService.checkExists(updateFollowDto.user_follower_id);
+    await this.usersService.checkExists(updateFollowDto.user_followed_id);
+
     await this.alreadyFollowed(
       updateFollowDto.user_follower_id,
       updateFollowDto.user_followed_id,
     );
+
     return this.prisma.follow.update({
       where: {
         id,
@@ -88,6 +68,12 @@ export class FollowsService {
   }
 
   async remove(id: number) {
+    if (!this.findOne(id)) {
+      throw new BadRequestException('Follow does not exist', {
+        cause: new Error(),
+      });
+    }
+
     return this.prisma.follow.delete({
       where: {
         id,

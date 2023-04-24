@@ -10,6 +10,7 @@ import { FollowsModule } from './modules/follows/follows.module';
 import { CommentsModule } from './modules/comments/comments.module';
 import { CommentLikeModule } from './modules/comment-like/comment-like.module';
 import { UserHasCommentsModule } from './modules/user-has-comments/user-has-comments.module';
+import { PostLikesModule } from './modules/post-likes/post-likes.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { UserHasCommentsModule } from './modules/user-has-comments/user-has-comm
     CommentsModule,
     CommentLikeModule,
     UserHasCommentsModule,
+    PostLikesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

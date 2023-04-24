@@ -1,12 +1,43 @@
-import { Body, Injectable, UsePipes } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from '../prisma/prisma.service';
-import { HashPasswordPipe } from './hash-password/hash-password.pipe';
 
 @Injectable()
 export class UsersService {
   constructor(private prisma: PrismaService) {}
+
+  async checkExists(id: number) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!user) {
+      throw new BadRequestException('User does not exist', {
+        cause: new Error(),
+      });
+    }
+
+    return true;
+  }
+
+  async checkExistsByUsername(username: string) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        username,
+      },
+    });
+
+    if (!user) {
+      throw new BadRequestException('User does not exist', {
+        cause: new Error(),
+      });
+    }
+
+    return true;
+  }
 
   async findAll() {
     // Get all users from database using Prisma
@@ -14,29 +45,47 @@ export class UsersService {
   }
 
   async findOne(id: number) {
-    return await this.prisma.user.findUnique({
+    const user = await this.prisma.user.findUnique({
       where: {
         id,
       },
     });
+
+    if (!user) {
+      throw new BadRequestException('User does not exist', {
+        cause: new Error(),
+      });
+    }
+
+    return user;
   }
 
   async findOneByUsername(username: string) {
-    return await this.prisma.user.findUnique({
+    const user = await this.prisma.user.findUnique({
       where: {
         username,
       },
     });
+
+    if (!user) {
+      throw new BadRequestException('User does not exist', {
+        cause: new Error(),
+      });
+    }
+
+    return user;
   }
 
   async create(createUserDto: CreateUserDto) {
+    await this.checkExistsByUsername(createUserDto.username);
+
     return await this.prisma.user.create({
       data: createUserDto,
     });
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
-    console.log('update service');
+    await this.checkExists(id);
 
     return await this.prisma.user.update({
       where: {
@@ -47,10 +96,16 @@ export class UsersService {
   }
 
   async remove(id: number) {
-    return await this.prisma.user.delete({
-      where: {
-        id,
-      },
-    });
+    try {
+      return await this.prisma.user.delete({
+        where: {
+          id,
+        },
+      });
+    } catch (error) {
+      throw new BadRequestException('User does not exist', {
+        cause: new Error(),
+      });
+    }
   }
 }

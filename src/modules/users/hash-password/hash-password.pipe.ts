@@ -8,7 +8,9 @@ export class HashPasswordPipe implements PipeTransform {
       return value;
     }
 
-    value.password = await bcrypt.hash(value.password, 10);
+    if (value.password !== undefined) {
+      value.password = await bcrypt.hash(value.password, 10);
+    }
     return value;
   }
 }

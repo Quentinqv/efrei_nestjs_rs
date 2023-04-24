@@ -2,6 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from '../prisma/prisma.service';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -30,13 +31,13 @@ export class UsersService {
       },
     });
 
-    if (!user) {
-      throw new BadRequestException('User does not exist', {
+    if (user) {
+      throw new BadRequestException('User already exists', {
         cause: new Error(),
       });
     }
 
-    return true;
+    return false;
   }
 
   async findAll() {

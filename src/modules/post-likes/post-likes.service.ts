@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreatePostLikeDto } from './dto/create-post-like.dto';
 import { UpdatePostLikeDto } from './dto/update-post-like.dto';
 import { PrismaService } from '../prisma/prisma.service';
@@ -21,7 +21,7 @@ export class PostLikesService {
     });
 
     if (!postLike) {
-      throw new Error(`PostLike with id ${id} does not exist`);
+      throw new BadRequestException(`PostLike with id ${id} does not exist`);
     }
   }
 
@@ -42,15 +42,17 @@ export class PostLikesService {
       return this.prisma.post_like.create({
         data: createPostLikeDto,
       });
+    } else {
+      return this.remove(postLike.id);
     }
   }
 
   async findAll() {
-    await this.prisma.post_like.findMany();
+    return await this.prisma.post_like.findMany();
   }
 
   async findOne(id: number) {
-    await this.prisma.post_like.findUnique({
+    return await this.prisma.post_like.findUnique({
       where: {
         id: id,
       },
